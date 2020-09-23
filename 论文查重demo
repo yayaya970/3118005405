@@ -1,0 +1,62 @@
+#-*-coding:utf-8-*-
+import pandas as pd
+import jieba
+import copy
+import numpy as np
+
+
+
+#分词
+book_a0=open('C:/Users/陈乙鑫/Desktop/orig.txt','r',encoding='utf-8')
+book_a=book_a0.read()
+book_a_lcut=jieba.lcut(book_a)
+print(len( book_a_lcut ))
+print('********************************************************************************************************')
+#分词
+book_b0=open('C:/Users/陈乙鑫/Desktop/orig_0.8_dis_15.txt','r',encoding='utf-8')
+book_b=book_b0.read()
+book_b_lcut=jieba.lcut(book_b)
+print(len( book_b_lcut ))
+
+
+#构建一个全集
+same=list(book_b_lcut)
+
+for word in book_a_lcut:
+    if word not in book_b_lcut:
+        same.append( word )
+   
+arr1=[]
+arr2=[]
+
+print(len( same))
+
+
+
+#构建词频向量
+#1
+for word1 in same:
+    arr1.append( book_a_lcut.count(word1) )
+print(arr1)
+
+print('***********************************************************************************************************')
+
+#2
+for word2 in same:
+    arr2.append( book_b_lcut.count(word2) )
+print(arr2)
+
+#计算余弦
+
+sum=0
+sq1=0
+sq2=0
+for cnt in range(len(same)):
+    sum+=arr1[cnt]*arr2[cnt]
+    sq1 += pow(arr1[cnt], 2)
+    sq2 += pow(arr2[cnt], 2)
+
+    
+cos=sum/((sq1*sq2)** 0.5)
+print(cos)
+    
